@@ -15,6 +15,6 @@ as
 
 select
     promo_id,
-    discout discount,
+    discout AS discount,
     status
 from promo

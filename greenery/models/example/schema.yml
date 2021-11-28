@@ -9,7 +9,6 @@ models:
         description: "The primary key for this table"
         tests:
           - unique
-          - not_null
 
   - name: my_second_dbt_model
     description: "A starter dbt model"
@@ -33,10 +32,112 @@ models:
         tests:
           - positive_values
   - name: stg_addresses
+    columns:  
+      - name: address_id
+        tests: 
+          - unique
+          - not_null
   - name: stg_events
+    columns:
+      - name: event_id
+        tests:
+          - not_null
+      - name: created_at
+        tests:
+          - in_the_past
   - name: stg_order_items
+    columns:
+      - name: order_id
+        tests: 
+          - not_null
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+      - name: product_id
+        tests: 
+          - not_null
+          - relationships:
+              to: ref('stg_products')
+              field: product_id
   - name: stg_orders
+    columns:
+      - name: order_id
+        tests: 
+          - not_null
+      - name: user_id
+        tests:
+          - relationships:
+              to: ref('stg_users')
+              field: user_id
+      - name: address_id
+        tests:
+          - relationships:
+              to: ref('stg_addresses')
+              field: address_id
+      - name: created_at
+        tests: 
+          - in_the_past
+      - name: order_cost
+        tests: 
+          - positive_values
+      - name: shipping_cost
+        tests: 
+          - positive_values
+      - name: order_total
+        tests: 
+          - positive_values
+      - name: promo_id
+        tests:
+          - relationships:
+              to: ref('stg_promos')
+              field: promo_id
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['pending','shipped','preparing','delivered']
   - name: stg_products
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+      - name: price
+        tests:
+          - positive_values
+      - name: quantity
+        tests:
+          - positive_values
   - name: stg_promos
+    columns:
+      - name: discount
+        tests:
+          - positive_values
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['active','inactive']
   - name: stg_users
+    columns:
+      - name: user_id
+        tests:
+          - unique
+          - not_null
+      - name: created_at
+        tests:
+          - in_the_past
+      - name: updated_at
+        tests:
+          - in_the_past
+      - name: address_id
+        tests:
+          - relationships:
+              to: ref('stg_addresses')
+              field: address_id
+  - name: dim_address
+  - name: dim_products
+  - name: dim_promo
+  - name: fct_order_product
+  - name: fct_orders
+  - name: fct_user_order
+  - name: fct_page_views
 
