@@ -27,9 +27,9 @@ as
 )
 select
     sp.product_name,
-    count(distinct sp.session_id)                                   AS total_session,
-    count(distinct cs.session_id)                                   AS checkout_session,
-    1.0*count(distinct cs.session_id)/count(distinct sp.session_id) AS conversion_rate
+    count(distinct sp.session_id)                                            AS total_session,
+    count(distinct cs.session_id)                                            AS checkout_session,
+    round(1.0*count(distinct cs.session_id)/count(distinct sp.session_id),2) AS conversion_rate
 from session_product sp
 left join checkout_session cs on sp.session_id = cs.session_id
 group by
