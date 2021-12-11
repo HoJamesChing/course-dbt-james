@@ -1,0 +1,19 @@
+version: 2
+
+macros:
+  - name: grant_role
+    description: A macro that grants role to user
+    arguments:
+      - name: role
+        type: string
+        description: The role you want to grant_role
+  
+  - name: warehouse_resize
+    description: A macro that change the size of the warehouse accroding to running envrionment to save resources
+    arguments:
+      - name: prod_size
+        type: string
+        description: The size used for production environment
+      - name: stage_size
+        type: string
+        description: The size used for development environment
