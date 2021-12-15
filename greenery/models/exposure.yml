@@ -1,0 +1,14 @@
+version: 2
+
+exposures:
+  - name: Product Funnel
+    description: >
+      User journey funnel
+    type: dashboard
+    maturity: low
+
+    owner:
+      name: James Ho
+      email: jamesho@gmail.com
+    depends_on:
+      - ref('fct_funnel')
